@@ -1,0 +1,31 @@
+# use version 3 of the docker compose syntax
+version: '3'
+services:
+  db:
+    # use a default image
+    image: mysql:5.7
+    command: --sql-mode="STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+    container_name: db
+
+    volumes:
+      - ~/docker/mysql:/var/lib/mysql
+
+    # again, port mapping 
+    # e.g. to use Sequel Pro on our mac
+    ports:
+      - 13306:3306
+
+    # the mysql image uses these to create database and users
+    environment:   
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: dev_hyre_db
+      MYSQL_USER: hyreapp
+      MYSQL_PASSWORD: BroKeC1=BA
+
+    networks:
+    - local-network 
+
+#Docker Networks
+networks:
+  local-network:
+    driver: bridge
